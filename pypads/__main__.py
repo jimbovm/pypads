@@ -17,18 +17,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import numpy as np
 import scipy as sp
-from sys import stdout
+from sys import exit, stderr
 
-from args import args
+from args import arg_parser, args
 from padsynth import padsynth
 
-amplitudes = [0] * args['harmonics']
-amplitudes[0:5] = [1.0, 0.5, 0.5, 0.25, 0.25, 0.0625, 0.0625]
+if len(args['amplitudes']) > args['harmonics']:
+	print(f'More amplitude values ({len(args['amplitudes'])}) given than harmonics ({args['harmonics']})', file=stderr)
+	arg_parser.print_help()
+	exit(1)
+
+amplitudes = np.zeros(args['harmonics'], dtype=float)
+amplitudes[0:len(args['amplitudes'])] = args['amplitudes']
 
 sample = padsynth(
 	args['harmonics'],
-	amplitudes,
+	amplitudes, # zero-padded up to args['harmonics']
 	args['wavetable_size'],
 	args['bandwidth'],
 	args['fundamental_hz'],
@@ -36,3 +42,5 @@ sample = padsynth(
 )
 
 sp.io.wavfile.write(args['output_file'], args['sample_rate'], sample)
+
+exit(0)

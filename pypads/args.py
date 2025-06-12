@@ -27,12 +27,13 @@ Generates ethereal synth pad samples using Nasca Octavian Paul\'s PADsynth algor
 ''',
 	epilog='This software is licensed under the MIT-0 licence (https://spdx.org/licenses/MIT-0.html).')
 
+arg_parser.add_argument('output_file', type=FileType('wb'), help='File to which to output pad sample')
 arg_parser.add_argument('--sample-rate', type=int, default=44100, help='Sample rate of generated WAV')
 arg_parser.add_argument('--wavetable-size', type=int, default=262144, help='Length (in samples) of generated WAV')
-arg_parser.add_argument('--fundamental-hz', type=int, default=440, help='Frequency of fundamental (e.g. 440 for the A below middle C)')
+arg_parser.add_argument('--fundamental-hz', type=int, default=440, help='Frequency of fundamental (e.g. 440 for A4)')
 arg_parser.add_argument('--bandwidth', type=int, default=50, help='Bandwidth of the first harmonic in cents')
-arg_parser.add_argument('--harmonics', type=int, default=100, help='Number of harmonics')
+arg_parser.add_argument('--harmonics', type=int, default=32, help='Number of harmonics')
 arg_parser.add_argument('--scale', type=int, default=1, help='Bandwidth scale with harmonic frequency')
-arg_parser.add_argument('output_file', type=FileType('wb'), help='File to which to output pad sample')
+arg_parser.add_argument('--amplitudes', required=True, type=float, nargs='+', help='Amplitude of each harmonic (zero assumed for harmonics not given)')
 
 args = vars(arg_parser.parse_args(argv[1:]))
