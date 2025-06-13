@@ -27,12 +27,24 @@ from utils import profile
 
 def padsynth(
 		harmonics: int,
-		amplitudes: int,
+		amplitudes: list,
 		wavetable_size: int,
 		bandwidth: int,
 		fundamental_hz: int,
 		sample_rate: int
 ):
+	'''Implement the PADsynth algorithm by Nasca Octavian Paul (https://zynaddsubfx.sourceforge.io/doc/PADsynth/PADsynth.htm).
+
+	See args.py for defaults passed in this program.
+
+	Arguments:
+	harmonics -- the number of harmonics (overtones) in the generated sound
+	amplitudes -- amplitude of each harmonic (length <= harmonics, 0.0 assumed for harmonics not given)
+	wavetable_size -- the length (in samples) of the generated sound
+	bandwidth -- the bandwidth of a harmonic (overtone) in cents
+	fundamental_hz -- the fundamental frequency, e.g. 440 for A4
+	sample_rate -- the number of samples per second in the generated sound
+	'''
 	freq_amplitude = sp.zeros(wavetable_size // 2 - 1)
 	freq_phase = sp.array([random() * tau for i in range(wavetable_size // 2 - 1)])
 

@@ -28,6 +28,7 @@ Generates ethereal synth pad samples using Nasca Octavian Paul\'s PADsynth algor
 	epilog='This software is licensed under the MIT-0 licence (https://spdx.org/licenses/MIT-0.html).')
 
 arg_parser.add_argument('output_file', type=FileType('wb'), help='File to which to output pad sample')
+arg_parser.add_argument('--stereo', action='store_true', default=False, help='Generate a stereo WAV')
 arg_parser.add_argument('--sample-rate', type=int, default=44100, help='Sample rate of generated WAV')
 arg_parser.add_argument('--wavetable-size', type=int, default=262144, help='Length (in samples) of generated WAV')
 arg_parser.add_argument('--fundamental-hz', type=int, default=440, help='Frequency of fundamental (e.g. 440 for A4)')

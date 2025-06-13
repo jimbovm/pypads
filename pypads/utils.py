@@ -20,5 +20,6 @@
 from math import exp
 
 def profile(frequency, bandwidth):
+	'''Component of the PADsynth algorithm (https://zynaddsubfx.sourceforge.io/doc/PADsynth/PADsynth.htm).'''
 	x = frequency / bandwidth
 	return exp(-x * x) / bandwidth

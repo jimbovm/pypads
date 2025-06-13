@@ -32,15 +32,25 @@ if len(args['amplitudes']) > args['harmonics']:
 amplitudes = np.zeros(args['harmonics'], dtype=float)
 amplitudes[0:len(args['amplitudes'])] = args['amplitudes']
 
-sample = padsynth(
-	args['harmonics'],
-	amplitudes, # zero-padded up to args['harmonics']
-	args['wavetable_size'],
-	args['bandwidth'],
-	args['fundamental_hz'],
-	args['sample_rate']
-)
+left_sample = padsynth(
+		args['harmonics'],
+		amplitudes, # zero-padded up to args['harmonics']
+		args['wavetable_size'],
+		args['bandwidth'],
+		args['fundamental_hz'],
+		args['sample_rate'])
 
-sp.io.wavfile.write(args['output_file'], args['sample_rate'], sample)
+if args['stereo'] is True:
+	right_sample = padsynth(
+		args['harmonics'],
+		amplitudes,
+		args['wavetable_size'],
+		args['bandwidth'],
+		args['fundamental_hz'],
+		args['sample_rate'])
+	stereo_array = np.column_stack((left_sample, right_sample))
+	sp.io.wavfile.write(args['output_file'], args['sample_rate'], stereo_array)
+	exit(0)
 
+sp.io.wavfile.write(args['output_file'], args['sample_rate'], left_sample)
 exit(0)
