@@ -38,6 +38,7 @@ left_sample = padsynth(
 		args['wavetable_size'],
 		args['bandwidth'],
 		args['fundamental_hz'],
+		args['scale'],
 		args['sample_rate'])
 
 if args['stereo'] is True:
@@ -47,6 +48,7 @@ if args['stereo'] is True:
 		args['wavetable_size'],
 		args['bandwidth'],
 		args['fundamental_hz'],
+		args['scale'],
 		args['sample_rate'])
 	stereo_array = np.column_stack((left_sample, right_sample))
 	sp.io.wavfile.write(args['output_file'], args['sample_rate'], stereo_array)

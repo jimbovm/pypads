@@ -23,3 +23,10 @@ def profile(frequency, bandwidth):
 	'''Component of the PADsynth algorithm (https://zynaddsubfx.sourceforge.io/doc/PADsynth/PADsynth.htm).'''
 	x = frequency / bandwidth
 	return exp(-x * x) / bandwidth
+
+def relative_frequency(harmonic):
+	'''Component of the PADsynth algorithm (https://zynaddsubfx.sourceforge.io/doc/PADsynth/PADsynth.htm).
+
+	Return the relative frequency to the fundamental of a harmonic.
+	'''
+	return harmonic * (1.0 + harmonic * 0.1)

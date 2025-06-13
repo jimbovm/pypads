@@ -23,7 +23,7 @@ from random import random
 import numpy as np
 import scipy as sp
 
-from utils import profile
+from utils import profile, relative_frequency
 
 def padsynth(
 		harmonics: int,
@@ -31,6 +31,7 @@ def padsynth(
 		wavetable_size: int,
 		bandwidth: int,
 		fundamental_hz: int,
+		scale: float,
 		sample_rate: int
 ):
 	'''Implement the PADsynth algorithm by Nasca Octavian Paul (https://zynaddsubfx.sourceforge.io/doc/PADsynth/PADsynth.htm).
@@ -43,6 +44,7 @@ def padsynth(
 	wavetable_size -- the length (in samples) of the generated sound
 	bandwidth -- the bandwidth of a harmonic (overtone) in cents
 	fundamental_hz -- the fundamental frequency, e.g. 440 for A4
+	scale -- factor by which to scale bandwidth by harmonic number
 	sample_rate -- the number of samples per second in the generated sound
 	'''
 	freq_amplitude = sp.zeros(wavetable_size // 2 - 1)
@@ -50,7 +52,7 @@ def padsynth(
 
 	for harmonic in range(1, harmonics):
 		if amplitudes[harmonic] != 0:
-			bandwidth_hz = (pow(2, bandwidth / 1200) - 1.0) * fundamental_hz * harmonic
+			bandwidth_hz = (pow(2, bandwidth / 1200) - 1.0) * fundamental_hz * pow(relative_frequency(harmonic), scale)
 			this_bandwidth = bandwidth_hz / (2.0 * sample_rate)
 			this_frequency = (fundamental_hz * harmonic) / sample_rate
 
