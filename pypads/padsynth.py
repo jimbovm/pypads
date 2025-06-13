@@ -49,13 +49,14 @@ def padsynth(
 	freq_phase = sp.array([random() * tau for i in range(wavetable_size // 2 - 1)])
 
 	for harmonic in range(1, harmonics):
-		bandwidth_hz = (pow(2, bandwidth / 1200) - 1.0) * fundamental_hz * harmonic
-		this_bandwidth = bandwidth_hz / (2.0 * sample_rate)
-		this_frequency = (fundamental_hz * harmonic) / sample_rate
+		if amplitudes[harmonic] != 0:
+			bandwidth_hz = (pow(2, bandwidth / 1200) - 1.0) * fundamental_hz * harmonic
+			this_bandwidth = bandwidth_hz / (2.0 * sample_rate)
+			this_frequency = (fundamental_hz * harmonic) / sample_rate
 
-		for i in range(0, (wavetable_size // 2 - 1)):
-			harmonic_profile = profile((i / wavetable_size) - this_frequency, this_bandwidth)
-			freq_amplitude[i] = freq_amplitude[i] + harmonic_profile * amplitudes[harmonic]
+			for i in range(0, (wavetable_size // 2 - 1)):
+				harmonic_profile = profile((i / wavetable_size) - this_frequency, this_bandwidth)
+				freq_amplitude[i] = freq_amplitude[i] + harmonic_profile * amplitudes[harmonic]
 
 	wavetable = sp.empty(len(freq_amplitude), dtype=complex)
 	wavetable.real = sp.array(freq_amplitude) * sp.cos(freq_phase)
