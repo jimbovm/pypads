@@ -24,17 +24,13 @@ from sys import exit, stderr
 from args import arg_parser, args
 from padsynth import padsynth
 
-if len(args['amplitudes']) > args['harmonics']:
-	print(f'More amplitude values ({len(args['amplitudes'])}) given than harmonics ({args['harmonics']})', file=stderr)
-	arg_parser.print_help()
-	exit(1)
+harmonics = len(args['amplitudes'])
 
-amplitudes = np.zeros(args['harmonics'], dtype=float)
-amplitudes[0:len(args['amplitudes'])] = args['amplitudes']
+amplitudes = np.array(args['amplitudes'], dtype=float)
 
 left_sample = padsynth(
-		args['harmonics'],
-		amplitudes, # zero-padded up to args['harmonics']
+		harmonics,
+		amplitudes,
 		args['wavetable_size'],
 		args['bandwidth'],
 		args['fundamental_hz'],
@@ -43,7 +39,7 @@ left_sample = padsynth(
 
 if args['stereo'] is True:
 	right_sample = padsynth(
-		args['harmonics'],
+		harmonics,
 		amplitudes,
 		args['wavetable_size'],
 		args['bandwidth'],
